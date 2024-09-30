@@ -5,7 +5,6 @@ import {
   ScrollArea,
   Text,
   TextInput,
-  Title,
   useMantineTheme,
 } from "@mantine/core";
 import { FC, useEffect, useRef, useState } from "react";
@@ -21,7 +20,9 @@ const EmployeeChat: FC = () => {
   const locals = UseLocalization();
   const global = useGlobal();
 
-  const [Messages, setMessages] = useState<employeeChatProps[]>(global.Messages);
+  const [Messages, setMessages] = useState<employeeChatProps[]>(
+    global.Messages
+  );
   const form = useForm({
     initialValues: {
       message: "",
@@ -46,7 +47,6 @@ const EmployeeChat: FC = () => {
   useEffect(() => {
     if (global.Messages.length !== Messages.length) {
       setMessages(global.Messages);
-      
     }
   }, [global.Messages, Messages]);
 
@@ -60,27 +60,32 @@ const EmployeeChat: FC = () => {
   const handleMessage = () => {
     const currentTime = Date.now();
 
-  
-    if (form.values.message.trim() === "" || currentTime - lastMessageTime < messageCooldown) {
-      return; 
+    if (
+      form.values.message.trim() === "" ||
+      currentTime - lastMessageTime < messageCooldown
+    ) {
+      return;
     }
-  
+
     const newMessage = {
       sender: myinformation.name,
       message: form.values.message.trim(),
       job: myinformation.job,
     };
-  
 
-  
     fetchNui("justgroot:g-employeeslistandchat:get-chat-data", newMessage);
-  
+
     setMessages((prevMessages) => [...prevMessages, newMessage]);
-  
+
     form.reset();
-    setLastMessageTime(currentTime); 
+    setLastMessageTime(currentTime);
   };
-  
+  const time = new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
   return (
     <Group
       className="w-[400px] h-mainheights p-3 rounded"
@@ -104,16 +109,17 @@ const EmployeeChat: FC = () => {
           </Group>
         )}
         {Messages.map((msg, index) => (
-          <Group
-            mt={"2px"}
+          <div
             key={index}
             ref={index === Messages.length - 1 ? lastMessageRef : null}
           >
-            <Group display={"flex"} className="w-full">
-              <Title order={6}>{msg.sender}</Title>
-              <Text>{msg.message}</Text>
-            </Group>
-          </Group>
+            <div className="w-full flex items-center gap-x-2 mt-0.5 ">
+              <span className="text-sm font-semibold ">
+                {time} <span>{msg.sender}</span>
+              </span>
+              <p>{msg.message}</p>
+            </div>
+          </div>
         ))}
       </ScrollArea>
       <form
