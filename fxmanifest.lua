@@ -21,6 +21,7 @@ files {
 }
 
 server_scripts{
+	'@oxmysql/lib/MySQL.lua',
 	"bridge/**/server.lua",
 	"src/server/*.lua",
 }
