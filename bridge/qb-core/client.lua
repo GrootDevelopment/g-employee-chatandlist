@@ -34,7 +34,7 @@ end)
 
 RegisterNetEvent('QBCore:Client:OnJobUpdate')
 AddEventHandler('QBCore:Client:OnJobUpdate', function(job)
-    QBCore.PlayerData.job = job
+    PlayerData.job = job
     OpenMenu()
 end)
 
@@ -43,15 +43,16 @@ function G.GetPlayerJob()
 end
 
 function G.GetPlayerName()
-    local charinfo = QBCore.Functions.GetPlayerData().charinfo
-    return charinfo.firstname .. ' ' .. charinfo.lastname
+    local charinfoo = PlayerData.charinfo
+    return charinfoo.firstname .. ' ' .. charinfoo.lastname
 end
 
 function G.CheckPlayerJob(pjob)
     for _, v in pairs(Config.Jobs) do
-        if QBCore.PlayerData.job.name == v then
+        if PlayerData.job.name == v then
             return true
         end
     end
     return false
 end
+
