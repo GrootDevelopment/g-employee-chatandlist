@@ -26,13 +26,15 @@ end
 local function InitializePlayerData()
     PlayerData = QBCore.Functions.GetPlayerData()
 end
-
+CreateThread(function()
+    Wait(1000)  
+    InitializePlayerData()
+end)
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function(playerData)
     InitializePlayerData()
 end)
 
-RegisterNetEvent('QBCore:Client:OnJobUpdate')
 AddEventHandler('QBCore:Client:OnJobUpdate', function(job)
     PlayerData.job = job
     OpenMenu()
@@ -48,6 +50,11 @@ function G.GetPlayerName()
 end
 
 function G.CheckPlayerJob(pjob)
+    if not PlayerData or not PlayerData.job then
+        print("[ERROR] Player job is not initialized")
+        return false
+    end
+
     for _, v in pairs(Config.Jobs) do
         if PlayerData.job.name == v then
             return true
@@ -55,4 +62,3 @@ function G.CheckPlayerJob(pjob)
     end
     return false
 end
-
