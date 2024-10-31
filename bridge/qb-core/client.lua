@@ -35,7 +35,8 @@ AddEventHandler('QBCore:Client:OnPlayerLoaded', function(playerData)
     InitializePlayerData()
 end)
 
-AddEventHandler('QBCore:Client:OnJobUpdate', function(job)
+RegisterNetEvent("QBCore:Client:OnJobUpdate")
+AddEventHandler("QBCore:Client:OnJobUpdate", function(job)
     PlayerData.job = job
     OpenMenu()
 end)
